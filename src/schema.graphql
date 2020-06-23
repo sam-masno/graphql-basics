@@ -1,0 +1,74 @@
+type Query {
+    getPost: Post!
+    getUsers: [User]!
+    getPosts: [Post]!
+    user: User!
+    comments: [Comment]!
+}
+#if return value not a scalar type, will need to destructure in query
+type Mutation {
+    createUser(data: CreateUserInput): [User]!
+    createPost(data: CreatePostInput): [Post]!
+    createComment(data: CreateCommentInput): [Comment]!
+}
+
+type Subscription {
+    comment(postId: ID!): CommentSubscriptionPayload!
+    post(userId: ID!): PostSubscriptionPayload!
+}
+
+#create input types to make standard input parameters
+#this can then be passed into an args object
+#resolvers much match object passed as input (must reference data in this case)
+
+input CreateUserInput {
+    name: String!
+}
+input CreatePostInput {
+        name: String!
+        author: String!
+}
+input CreateCommentInput {
+    post: String!
+    author: String!
+    body: String!
+}
+
+#if relationships are created, you must add a resolver for that Type and define how it returns that relation
+type Post {
+    id: String!
+    name: String
+    author: User!
+    comments: [Comment]!
+}
+type User {
+    id: String!
+    name: String!
+    posts: [Post]!
+}
+type Comment {
+    id: String!
+    post: Post!
+    author: User!
+    body: String!
+}
+
+# Enum type - specifies a series of constants and limits possible values
+# By convention these are in upercase
+enum MutationType {
+    CREATE
+    UPDATE
+    DELETE
+}
+
+#pass custom payloads to subscriptions to add layer of control
+type PostSubscriptionPayload {
+    mutation: MutationType!
+    data: Post!
+}
+
+type CommentSubscriptionPayload {
+    mutation: MutationType!
+    data: Comment!
+}
+
