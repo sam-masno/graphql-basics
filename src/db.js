@@ -1,7 +1,7 @@
 const users = [
     {"id": "1", name: "Molls", posts: ["99", "88"]},
     {"id": "2", name: "Sam", posts: ["77", "66"]},
-    {"id": "3", name: "Honks", posts: ["55", "44"]}
+    {"id": "3", name: "Bill", posts: ["55", "44"]}
 ]
 const posts = [
     {id: "99", name: "Post 1" ,author: "1"},
